@@ -1,4 +1,4 @@
-// src/styles/main.scss
+
 @use "sass:color";
 
 // Variables
@@ -236,6 +236,21 @@ nav ul {
   }
 }
 
+@media (max-width: 368px) {
+  .hero__content {
+    max-width: 368px;
+    padding: 1rem; 
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    p {
+      font-size: 0.65rem;
+    }
+  }
+}
+
 // Glitch Text Effect
 .glitch-text {
   position: relative;
@@ -292,7 +307,7 @@ nav ul {
   50% { border-color: $primary-color }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 368px) {
   .typewriter {
     max-width: 100%;
     font-size: 1rem;
@@ -307,7 +322,7 @@ nav ul {
 // About Section
 .about__content {
   display: flex;
-  gap: 2rem;
+  gap: 0.7rem;
   flex-direction: column;
   
   p {
@@ -315,6 +330,15 @@ nav ul {
     line-height: 1.6;
   }
 }
+
+@media (max-width: 368px) {
+  .about__content {
+  max-width: 368px;
+
+}
+}
+
+
 
 // Logo Carousel
 #logo-carousel {
@@ -627,10 +651,19 @@ nav ul {
   align-items: center;
   justify-content: center;
   
+  &.snake-game {
+    display: block !important;
+  }
+}
+
+.snake-hidden {
+  display: none !important;
+}
+
   canvas {
     border: 2px solid $primary-color;
   }
-}
+
 
 
 // Backend Skills Section
@@ -640,7 +673,7 @@ nav ul {
     gap: 2rem;
     margin-bottom: 3rem;
     
-    @media (max-width: 768px) {
+    @media (max-width: 368px) {
       /* grid-template-columns: 1fr; */
       display: none;
     }
@@ -940,7 +973,7 @@ nav ul {
     transition: background 0.2s ease;
     
     &:hover {
-      background: #f44336;
+      background: $primary-color;
       color: white;
     }
   }

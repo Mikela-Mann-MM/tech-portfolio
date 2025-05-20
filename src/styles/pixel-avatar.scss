@@ -1,3 +1,5 @@
+// src/styles/pixel-avatar.scss
+
 // Variables - Nordisk farvepalet med fokus på elegance og kontrast
 $primary-color: #00c0ff;  // Isblå for god kontrast
 $secondary-color: #e1f5fe; // Let blå, elegant
@@ -76,6 +78,15 @@ $body-font: 'Inter', 'Roboto', 'Segoe UI', sans-serif; // Moderne font
       opacity: 0.15;
       z-index: -1;
       border-radius: calc($border-radius + 2px);
+    }
+  }
+  
+  // Dark mode overrides
+  .dark-mode & {
+    .pixel-popup-container {
+      background-color: #262626;
+      color: #f1f1f1;
+      border-color: rgba($primary-color, 0.4);
     }
   }
 }
@@ -185,6 +196,11 @@ $body-font: 'Inter', 'Roboto', 'Segoe UI', sans-serif; // Moderne font
         margin-left: 3px;
         opacity: 0.8;
       }
+      
+      .dark-mode & {
+        background-color: #3a3a3a;
+        color: #f1f1f1;
+      }
     }
     
     &.user-message .pixel-message-text {
@@ -207,6 +223,10 @@ $body-font: 'Inter', 'Roboto', 'Segoe UI', sans-serif; // Moderne font
   align-self: flex-start;
   max-width: 85%;
   margin-bottom: 10px;
+  
+  .dark-mode & {
+    background-color: #3a3a3a;
+  }
   
   .pixel-dot {
     width: 6px;
@@ -237,6 +257,11 @@ $body-font: 'Inter', 'Roboto', 'Segoe UI', sans-serif; // Moderne font
   padding: 14px;
   background-color: color.adjust($light-bg, $lightness: -3%);
   border-top: 1px solid rgba($primary-color, 0.15);
+  
+  .dark-mode & {
+    background-color: #222;
+    border-top-color: #444;
+  }
 }
 
 .pixel-input {
@@ -259,6 +284,16 @@ $body-font: 'Inter', 'Roboto', 'Segoe UI', sans-serif; // Moderne font
   
   &::placeholder {
     color: rgba($light-text, 0.5);
+  }
+  
+  .dark-mode & {
+    background-color: #222;
+    color: white;
+    border-color: #444;
+    
+    &:focus {
+      background-color: #2a2a2a;
+    }
   }
 }
 
@@ -294,6 +329,11 @@ $body-font: 'Inter', 'Roboto', 'Segoe UI', sans-serif; // Moderne font
   background-color: color.adjust($light-bg, $lightness: -3%);
   border-top: 1px solid rgba($primary-color, 0.15);
   
+  .dark-mode & {
+    background-color: #222;
+    border-top-color: #444;
+  }
+  
   .pixel-quick-btn {
     padding: 10px;
     background-color: rgba($primary-color, 0.1);
@@ -314,6 +354,17 @@ $body-font: 'Inter', 'Roboto', 'Segoe UI', sans-serif; // Moderne font
     &:active {
       transform: scale(0.97);
     }
+    
+    .dark-mode & {
+      background-color: #333;
+      border-color: #444;
+      color: white;
+      
+      &:hover {
+        background-color: rgba($accent-color, 0.25);
+        color: white;
+      }
+    }
   }
 }
 
@@ -325,6 +376,63 @@ $body-font: 'Inter', 'Roboto', 'Segoe UI', sans-serif; // Moderne font
   50% {
     opacity: 0;
   }
+}
+
+// Floating AI Assistant button styles
+.floating-ai-assistant-btn {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  background: linear-gradient(45deg, $primary-color, $accent-color);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+  z-index: 1000;
+  
+  &:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+  
+  .ai-icon {
+    animation: pulse 2s infinite;
+  }
+}
+
+// Regular AI Assistant button in footer
+.ai-assistant-btn {
+  background: linear-gradient(45deg, $primary-color, $accent-color);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin-top: 10px;
+  font-family: $body-font;
+  font-size: 1rem;
+  display: inline-block;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 // Mobile responsiveness
@@ -340,5 +448,13 @@ $body-font: 'Inter', 'Roboto', 'Segoe UI', sans-serif; // Moderne font
     .pixel-popup-messages {
       height: 220px;
     }
+  }
+  
+  .floating-ai-assistant-btn {
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
   }
 }
