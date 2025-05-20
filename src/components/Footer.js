@@ -22,7 +22,7 @@ export function renderFooter() {
           
           <div id="contact" class="footer-section">
             <p class="footer-note">Built with <span class="heart">♥</span> and JavaScript</p>
-            <p class="footer-note">Press ESC for a surprise</p>
+            <p class="footer-note footer-note__website">Press ESC for a surprise</p>
           </div>
         </div>
         

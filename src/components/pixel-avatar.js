@@ -1,3 +1,4 @@
+// src/components/pixel-avatar.js
 import '../styles/pixel-avatar.scss'
 
 export function renderPixelAvatar() {
@@ -9,13 +10,15 @@ export function renderPixelAvatar() {
     document.body.appendChild(avatarSection)
   }
   
-  // Ved start er avatar skjult
+  
+  // Hidden by default
   avatarSection.style.display = 'none'
   
+  // Create chat interface HTML
   avatarSection.innerHTML = `
     <div class="pixel-avatar-popup">
       <div class="pixel-popup-container">
-        <!-- Header med close button -->
+        <!-- Header with close button -->
         <div class="pixel-popup-header">
           <div class="pixel-popup-title">AI Assistant</div>
           <div class="pixel-popup-close">✕</div>
@@ -40,7 +43,7 @@ export function renderPixelAvatar() {
           <button class="pixel-button" id="pixel-send-btn">Send</button>
         </div>
         
-        <!-- Spørgsmål -->
+        <!-- Quick question buttons -->
         <div class="pixel-quick-questions">
           <button class="pixel-quick-btn" data-question="What technologies do you know?">Tech Stack</button>
           <button class="pixel-quick-btn" data-question="Tell me about your projects">Projects</button>
@@ -66,6 +69,16 @@ export function renderPixelAvatar() {
   // Close button handler
   closeButton.addEventListener('click', () => {
     avatarSection.style.display = 'none'
+    // Clear chat history when closing
+    messagesContainer.innerHTML = `
+      <div class="pixel-message avatar-message">
+        <div class="pixel-message-text">Hello! I'm your AI assistant. I can tell you about my skills, projects, and experience. What would you like to know?</div>
+      </div>
+    `
+    // Reset name input if it was shown
+    nameContainer.style.display = 'block'
+    nameInput.value = ''
+    visitorName = ''
   })
   
   // Set name handler
@@ -86,7 +99,7 @@ export function renderPixelAvatar() {
     }
   })
   
-  // Spørgsmål buttons
+  // Quick question buttons
   quickButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const question = btn.getAttribute('data-question')
@@ -121,7 +134,7 @@ export function renderPixelAvatar() {
     const messageElement = document.createElement('div')
     messageElement.className = 'pixel-message avatar-message'
     
-    // Tilføj typing indicator
+    // Add typing indicator
     const typingIndicator = document.createElement('div')
     typingIndicator.className = 'pixel-typing-indicator'
     typingIndicator.innerHTML = '<div class="pixel-dot"></div><div class="pixel-dot"></div><div class="pixel-dot"></div>'
@@ -152,7 +165,7 @@ export function renderPixelAvatar() {
   function processMessage(message) {
     message = message.toLowerCase()
     
-    // Simple response 
+    // Simple keyword-based responses
     if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
       const greeting = visitorName ? `Hello ${visitorName}!` : 'Hello there!'
       addAvatarMessage(`${greeting} How can I help you today?`)
@@ -183,11 +196,11 @@ export function renderPixelAvatar() {
     }
   }
   
-  // draggable
+  // Make the chat interface draggable
   makeDraggable(avatarSection.querySelector('.pixel-popup-header'), avatarSection.querySelector('.pixel-avatar-popup'))
 }
 
-// Function - draggable
+// Draggable functionality
 function makeDraggable(handle, dragElement) {
   let posX = 0, posY = 0, posLeft = 0, posTop = 0
   
@@ -221,37 +234,18 @@ function makeDraggable(handle, dragElement) {
   }
 }
 
-// Vis avatar ved scroll
-export function setupScrollTrigger() {
-  let hasScrolled = false
-  
-  // Check om user - scrolled (using localStorage)
-  if (localStorage.getItem('hasScrolled') === 'true') {
-    hasScrolled = true
-  }
-  
-  // Function - handle scroll event
-  function handleScroll() {
-    if (!hasScrolled) {
-      hasScrolled = true
-      localStorage.setItem('hasScrolled', 'true')
-      
-      const avatarSection = document.getElementById('pixel-avatar-section')
-      if (avatarSection) {
-        avatarSection.style.display = 'block'
-      }
-      
-      // Fjern scroll event listener once triggered
-      window.removeEventListener('scroll', handleScroll)
+// Show assistant on load after a delay
+export function setupAvatarTrigger() {
+  setTimeout(() => {
+    const avatarSection = document.getElementById('pixel-avatar-section')
+    if (avatarSection) {
+      avatarSection.style.display = 'block'
     }
-  }
-  
-  // Tilføj scroll event listener
-  window.addEventListener('scroll', handleScroll)
+  }, 2000) // Show after 2 seconds
 }
 
-// Initialize begge funktioner
+// Initialize both functions
 export function initPixelAvatar() {
   renderPixelAvatar()
-  setupScrollTrigger()
+  setupAvatarTrigger()
 }
