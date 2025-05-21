@@ -597,18 +597,18 @@ nav ul {
     color: $secondary-color;
   }
 
-
-
 }
 
 .heart {
-  color: red;
+  color: $secondary-color;
+  display: inline-block;
   animation: heartbeat 1s infinite;
+  
 }
 
 @keyframes heartbeat {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
+  50% { transform: scale(1.8); }
 }
 
 .copyright {
@@ -674,8 +674,8 @@ nav ul {
     margin-bottom: 3rem;
     
     @media (max-width: 368px) {
-      /* grid-template-columns: 1fr; */
-      display: none;
+      grid-template-columns: 1fr;
+      
     }
   }
   
