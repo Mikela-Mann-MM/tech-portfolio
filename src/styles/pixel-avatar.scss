@@ -1,4 +1,5 @@
-// src/styles/pixel-avatar.scss
+@use "sass:color";
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 // Variables - Nordisk farvepalet med fokus på elegance og kontrast
 $primary-color: #00c0ff;  // Isblå for god kontrast
@@ -9,10 +10,8 @@ $light-text: #2c3e50;     // Mørkere tekst for bedre læsbarhed
 $border-size: 2px;
 $border-radius: 12px;
 $border-radius-sm: 8px;
-$body-font: 'Inter', 'Roboto', 'Segoe UI', sans-serif; // Moderne font
+$font-main: 'Courier New', monospace;
 
-// Import color module
-@use "sass:color";
 
 // Mixins
 @mixin elegant-shadow {
@@ -54,7 +53,7 @@ $body-font: 'Inter', 'Roboto', 'Segoe UI', sans-serif; // Moderne font
   bottom: 25px;
   right: 25px;
   z-index: 9999;
-  font-family: $body-font;
+  font-family: $font-main;
   @include elegant-shadow;
   
   .pixel-popup-container {
@@ -271,7 +270,7 @@ $body-font: 'Inter', 'Roboto', 'Segoe UI', sans-serif; // Moderne font
   border: 1px solid rgba($primary-color, 0.3);
   border-radius: 20px;
   color: $light-text;
-  font-family: $body-font;
+  font-family: $font-main;
   font-size: 14px;
   outline: none;
   transition: all 0.2s ease;
@@ -304,7 +303,7 @@ $body-font: 'Inter', 'Roboto', 'Segoe UI', sans-serif; // Moderne font
   border: none;
   color: #fff;
   font-weight: 600;
-  font-family: $body-font;
+  font-family: $font-main;
   font-size: 14px;
   cursor: pointer;
   transition: all 0.2s;
@@ -340,7 +339,7 @@ $body-font: 'Inter', 'Roboto', 'Segoe UI', sans-serif; // Moderne font
     border: 1px solid rgba($primary-color, 0.25);
     border-radius: 20px;
     color: $light-text;
-    font-family: $body-font;
+    font-family: $font-main;
     font-size: 13px;
     cursor: pointer;
     transition: all 0.25s;
@@ -419,7 +418,7 @@ $body-font: 'Inter', 'Roboto', 'Segoe UI', sans-serif; // Moderne font
   font-weight: bold;
   transition: transform 0.3s, box-shadow 0.3s;
   margin-top: 10px;
-  font-family: $body-font;
+  font-family: $font-main;
   font-size: 1rem;
   display: inline-block;
   
