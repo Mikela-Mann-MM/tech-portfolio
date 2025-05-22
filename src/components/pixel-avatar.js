@@ -78,15 +78,18 @@ export function renderPixelAvatar() {
     </div>
   `
   
-  // Add floating avatar button
-  const avatarButton = document.createElement('div')
-  avatarButton.className = 'pixel-avatar-wrapper'
-  avatarButton.innerHTML = `
-    <div class="pixel-avatar">
-      <span>💬</span>
-    </div>
-  `
-  document.body.appendChild(avatarButton)
+  // Add floating avatar button if it doesn't exist
+  let avatarButton = document.querySelector('.pixel-avatar-wrapper')
+  if (!avatarButton) {
+    avatarButton = document.createElement('div')
+    avatarButton.className = 'pixel-avatar-wrapper'
+    avatarButton.innerHTML = `
+      <div class="pixel-avatar">
+        <span>💬</span>
+      </div>
+    `
+    document.body.appendChild(avatarButton)
+  }
   
   // Avatar button click handler
   avatarButton.addEventListener('click', () => {
