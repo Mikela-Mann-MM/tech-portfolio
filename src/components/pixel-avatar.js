@@ -15,29 +15,32 @@ export function renderPixelAvatar() {
   avatarSection.style.display = 'none'
   avatarSection.style.visibility = 'hidden'
   
+  // Check if mobile
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  
   // Create video container first
   avatarSection.innerHTML = `
     <div class="pixel-avatar-popup" style="display: none;">
       <div class="pixel-popup-container">
         <!-- Video container -->
-        <div class="pixel-video-container" id="pixel-video-container">
+        <div class="pixel-video-container" id="pixel-video-container" style="${isMobile ? 'display: none;' : ''}">
           <video id="avatar-intro-video" width="100%" height="auto" muted playsinline>
             <source src="/src/assets/Avatar.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
-          <div class="pixel-video-overlay" id="video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); cursor: pointer;">
+          ${!isMobile ? `<div class="pixel-video-overlay" id="video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); cursor: pointer;">
             <button class="pixel-play-btn" style="background: linear-gradient(45deg, #0df, #f0f); color: #fff; border: none; padding: 0.8rem 1.5rem; border-radius: 4px; font-size: 1rem; cursor: pointer; font-family: 'Courier New', monospace; font-weight: bold; transition: transform 0.3s, box-shadow 0.3s;">
               Play
             </button>
-          </div>
+          </div>` : ''}
           <div class="pixel-video-controls" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: none; gap: 10px;" id="video-controls">
             <button class="pixel-video-close" id="video-close-btn" style="background: linear-gradient(45deg, #0df, #f0f); color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer; font-family: 'Courier New', monospace; font-weight: bold; font-size: 0.9rem; transition: transform 0.3s, box-shadow 0.3s;">Close</button>
             <button class="pixel-video-unmute" id="unmute-btn" style="background: linear-gradient(45deg, #0df, #f0f); color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer; font-family: 'Courier New', monospace; font-weight: bold; font-size: 0.9rem; transition: transform 0.3s, box-shadow 0.3s;">Unmute</button>
           </div>
         </div>
         
-        <!-- Chat interface (hidden initially) -->
-        <div class="pixel-chat-interface" id="pixel-chat-interface" style="display: none;">
+        <!-- Chat interface (hidden initially on desktop, shown on mobile) -->
+        <div class="pixel-chat-interface" id="pixel-chat-interface" style="${isMobile ? 'display: block;' : 'display: none;'}">
           <!-- Header with close button -->
           <div class="pixel-popup-header">
             <div class="pixel-popup-title">AI Assistant</div>
@@ -74,6 +77,33 @@ export function renderPixelAvatar() {
       </div>
     </div>
   `
+  
+  // Add floating avatar button
+  const avatarButton = document.createElement('div')
+  avatarButton.className = 'pixel-avatar-wrapper'
+  avatarButton.innerHTML = `
+    <div class="pixel-avatar">
+      <span>💬</span>
+    </div>
+  `
+  document.body.appendChild(avatarButton)
+  
+  // Avatar button click handler
+  avatarButton.addEventListener('click', () => {
+    const avatarPopup = avatarSection.querySelector('.pixel-avatar-popup')
+    if (avatarSection && avatarPopup) {
+      avatarSection.style.display = 'block'
+      avatarSection.style.visibility = 'visible'
+      avatarPopup.style.display = 'block'
+      
+      // On mobile, show chat directly
+      if (isMobile && chatInterface) {
+        videoContainer.style.display = 'none'
+        chatInterface.style.display = 'block'
+        initializeChatInterface()
+      }
+    }
+  })
   
   // Get elements
   const video = document.getElementById('avatar-intro-video')
