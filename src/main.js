@@ -3,7 +3,7 @@ import './styles/main.scss'
 import { renderHeader } from './components/Header'
 import { renderFooter } from './components/Footer'
 import { renderLogoCarousel } from './components/LogoCarousel'
-/* import { renderVideoSection } from './components/VideoSection' */
+import { renderVideoSection } from './components/VideoSection' 
 import { renderAnimatedLogo } from './components/AnimatedLogo'
 import { renderBackendSkills } from './components/BackendSkills'
 import { initPixelAvatar } from './components/pixel-avatar'
@@ -108,10 +108,10 @@ Creating experiences that are not just functional but memorable. Whether optimiz
         <div id="backend-skills"></div>
       </section>
 
-    <!--   <section class="showcase">
+       <section class="showcase">
         <h2 class="section-title">Featured Project</h2>
         <div id="video-section"></div>
-      </section> -->
+      </section> 
       
       <section id="projects" class="projects">
         <h2 class="section-title">Projects</h2>
@@ -204,7 +204,7 @@ initPixelAvatar()
 renderHeader()
 renderFooter()
 renderLogoCarousel()
-/* renderVideoSection() */
+renderVideoSection() 
 renderAnimatedLogo()
 renderBackendSkills()
 initPixelAvatar()
