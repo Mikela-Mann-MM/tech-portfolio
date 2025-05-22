@@ -490,25 +490,25 @@ $font-main: 'Courier New', monospace;
   }
 }
 
-// Floating avatar button
+// Floating avatar button - TikTok style above back-to-top
 .pixel-avatar-wrapper {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 90px; // Position above back-to-top button
+  right: 30px; // Align with back-to-top button
   z-index: 999;
   cursor: pointer;
 }
 
 .pixel-avatar {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   background: linear-gradient(45deg, $primary-color, $accent-color);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  font-size: 1.3rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s, box-shadow 0.3s;
   animation: subtlePulse 3s ease-in-out infinite;
   
@@ -531,14 +531,15 @@ $font-main: 'Courier New', monospace;
 // Responsive styles for pixel avatar
 @media (max-width: 768px) {
   .pixel-avatar-wrapper {
-    bottom: 10px;
-    right: 50%;
-    transform: translateX(50%);
+    bottom: 80px; // Above back-to-top on mobile
+    right: 20px; // Keep right-aligned on mobile
+    transform: none; // Remove centering
   }
   
   .pixel-avatar {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
   }
   
   .chat-window,
