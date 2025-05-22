@@ -58,6 +58,12 @@ export function renderVideoSection() {
       
       // Function to restore play button
       const restorePlayButton = () => {
+        // Restore video visibility
+        const featuredVideo = document.querySelector('.project-video')
+        if (featuredVideo) {
+          featuredVideo.style.visibility = 'visible'
+        }
+        
         videoOverlay.innerHTML = originalOverlayHTML
         videoOverlay.style.display = 'flex'
         
@@ -268,6 +274,12 @@ export function renderVideoSection() {
         
         // Show avatar popup after animation
         setTimeout(() => {
+          // Hide the featured project video
+          const featuredVideo = document.querySelector('.project-video')
+          if (featuredVideo) {
+            featuredVideo.style.visibility = 'hidden'
+          }
+          
           const avatarSection = document.getElementById('pixel-avatar-section')
           if (avatarSection) {
             avatarSection.style.display = 'block'
