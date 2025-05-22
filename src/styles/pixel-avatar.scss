@@ -100,6 +100,21 @@ $font-main: 'Courier New', monospace;
   }
 }
 
+// Main video container (for avatar intro)
+.video-container {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 400px;
+  height: 600px;
+  background-color: #000;
+  border-radius: $border-radius;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  display: none;
+  z-index: 1000;
+  overflow: hidden;
+}
+
 // Chat interface wrapper
 .pixel-chat-interface {
   display: flex;
@@ -510,16 +525,18 @@ $font-main: 'Courier New', monospace;
 @media (max-width: 480px) {
   .chat-window,
   .video-container {
+    position: fixed !important;
     width: 100vw;
     height: 100vh;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    transform: none;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    top: 0 !important;
+    transform: none !important;
     border-radius: 0;
     max-width: none;
     max-height: none;
+    z-index: 9999;
   }
   
   .video-container {
