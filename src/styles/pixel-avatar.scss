@@ -479,7 +479,8 @@ $font-main: 'Courier New', monospace;
 @media (max-width: 768px) {
   .pixel-avatar-wrapper {
     bottom: 10px;
-    right: 10px;
+    right: 50%;
+    transform: translateX(50%);
   }
   
   .pixel-avatar {
@@ -493,7 +494,9 @@ $font-main: 'Courier New', monospace;
     max-width: 400px;
     height: 70vh;
     bottom: 70px;
-    right: 10px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
   }
   
   .video-controls {
@@ -509,7 +512,10 @@ $font-main: 'Courier New', monospace;
   .video-container {
     width: 95vw;
     height: 60vh;
-    right: 2.5vw;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    bottom: 60px;
   }
   
   .chat-header {
