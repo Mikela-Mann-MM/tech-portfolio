@@ -510,12 +510,67 @@ $font-main: 'Courier New', monospace;
 @media (max-width: 480px) {
   .chat-window,
   .video-container {
-    width: 95vw;
-    height: 60vh;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    bottom: 60px;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    transform: none;
+    border-radius: 0;
+    max-width: none;
+    max-height: none;
+  }
+  
+  .video-container {
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    
+    #avatar-intro-video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    
+    .video-controls {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      padding: 0 20px;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+      padding-top: 40px;
+      
+      button {
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.3);
+        color: white;
+        padding: 12px 24px;
+        font-size: 1rem;
+        
+        &:hover {
+          background: rgba(255,255,255,0.3);
+        }
+      }
+    }
+    
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      z-index: 10;
+    }
   }
   
   .chat-header {
