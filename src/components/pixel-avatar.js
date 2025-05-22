@@ -377,12 +377,18 @@ function makeDraggable(handle, dragElement) {
 
 // Show assistant on load after a delay
 export function setupAvatarTrigger() {
-  setTimeout(() => {
-    const avatarSection = document.getElementById('pixel-avatar-section')
-    if (avatarSection) {
-      avatarSection.style.display = 'block'
-    }
-  }, 2000) // Show after 2 seconds
+  // Check if mobile
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  
+  // Only show auto-popup on desktop
+  if (!isMobile) {
+    setTimeout(() => {
+      const avatarSection = document.getElementById('pixel-avatar-section')
+      if (avatarSection) {
+        avatarSection.style.display = 'block'
+      }
+    }, 2000) // Show after 2 seconds on desktop only
+  }
 }
 
 // Initialize both functions
