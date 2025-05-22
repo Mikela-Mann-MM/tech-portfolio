@@ -474,3 +474,53 @@ $font-main: 'Courier New', monospace;
     font-size: 1.5rem;
   }
 }
+
+// Responsive styles for pixel avatar
+@media (max-width: 768px) {
+  .pixel-avatar-wrapper {
+    bottom: 10px;
+    right: 10px;
+  }
+  
+  .pixel-avatar {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .chat-window,
+  .video-container {
+    width: 90vw;
+    max-width: 400px;
+    height: 70vh;
+    bottom: 70px;
+    right: 10px;
+  }
+  
+  .video-controls {
+    button {
+      padding: 8px 16px;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-window,
+  .video-container {
+    width: 95vw;
+    height: 60vh;
+    right: 2.5vw;
+  }
+  
+  .chat-header {
+    padding: 0.75rem;
+    
+    h3 {
+      font-size: 0.9rem;
+    }
+  }
+  
+  .loading-animation {
+    font-size: 1.2rem;
+  }
+}

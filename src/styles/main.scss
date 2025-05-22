@@ -11,6 +11,12 @@ $border-style: 2px solid $primary-color;
 $font-main: 'Courier New', monospace;
 $font-headers: 'Press Start 2P', cursive, sans-serif;
 
+// Responsive breakpoints
+$breakpoint-mobile: 480px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+$breakpoint-wide: 1440px;
+
 // Reset & Base Styles
 *, *::before, *::after {
   box-sizing: border-box;
@@ -1157,6 +1163,218 @@ nav ul {
   &:hover .view-project-btn {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+// ============================================
+// COMPREHENSIVE RESPONSIVE STYLES
+// ============================================
+
+// Mobile-first approach with progressive enhancement
+
+// Base mobile styles (already applied above)
+
+// Tablet styles
+@media (min-width: $breakpoint-tablet) {
+  .container {
+    max-width: 720px;
+  }
+  
+  // Navigation improvements
+  .site-header {
+    padding: 1.5rem 2rem;
+  }
+  
+  // Better grid layouts
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+// Desktop styles
+@media (min-width: $breakpoint-desktop) {
+  .container {
+    max-width: 960px;
+  }
+  
+  // Hero section
+  .hero__content {
+    h1 {
+      font-size: 4rem;
+    }
+  }
+  
+  // Skills grid
+  .skills-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  // Projects grid
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  // Backend showcase
+  .backend-showcase {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+// Wide desktop styles
+@media (min-width: $breakpoint-wide) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
+// Mobile-specific adjustments
+@media (max-width: $breakpoint-mobile) {
+  // Typography scaling
+  h1 {
+    font-size: 1.75rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  h3 {
+    font-size: 1.25rem;
+  }
+  
+  p {
+    font-size: 0.9rem;
+  }
+  
+  // Navigation
+  .nav-links {
+    gap: 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  // Sections padding
+  section {
+    padding: 3rem 1rem;
+  }
+  
+  // Cards and components
+  .project-card,
+  .skill-box {
+    padding: 1rem;
+  }
+  
+  // Featured project
+  .featured-project {
+    .project-video {
+      height: 200px;
+    }
+  }
+  
+  // Hide decorative elements on small screens
+  .decorative-element,
+  .animated-bg {
+    display: none;
+  }
+  
+  // Backend showcase
+  .backend-showcase {
+    grid-template-columns: 1fr;
+  }
+  
+  // API demo responsive
+  .endpoint {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    
+    .method {
+      margin-right: 0;
+    }
+  }
+  
+  // Footer
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+}
+
+// Tablet-specific adjustments
+@media (min-width: $breakpoint-mobile) and (max-width: $breakpoint-tablet) {
+  // Hero adjustments
+  .hero__content {
+    h1 {
+      font-size: 3rem;
+    }
+  }
+  
+  // Grid adjustments
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Landscape mobile
+@media (max-width: $breakpoint-tablet) and (orientation: landscape) {
+  .hero {
+    min-height: 70vh;
+  }
+  
+  .hero__content {
+    padding: 1rem;
+    
+    h1 {
+      font-size: 2rem;
+    }
+  }
+}
+
+// High DPI screens
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  // Sharper borders and shadows
+  .project-card,
+  .skill-box {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Print styles
+@media print {
+  .site-header,
+  .back-to-top,
+  .snake-game,
+  .pixel-avatar-wrapper,
+  video {
+    display: none !important;
+  }
+  
+  body {
+    background: white;
+    color: black;
+  }
+  
+  a {
+    text-decoration: underline;
+  }
+}
+
+// Accessibility: Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
