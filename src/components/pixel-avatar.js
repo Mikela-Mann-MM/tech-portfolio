@@ -185,7 +185,8 @@ export function renderPixelAvatar() {
     initializeChatInterface()
   })
   
-  function initializeChatInterface() {
+  // Make initializeChatInterface globally available
+  window.initializeChatInterface = function initializeChatInterface() {
     const closeButton = avatarSection.querySelector('.pixel-popup-close')
     const messageInput = document.getElementById('pixel-message-input')
     const sendButton = document.getElementById('pixel-send-btn')

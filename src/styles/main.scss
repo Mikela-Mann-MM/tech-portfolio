@@ -186,6 +186,34 @@ nav ul {
   }
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.chat-toggle-btn {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(45deg, $primary-color, $accent-color);
+  border: none;
+  transition: transform 0.3s, box-shadow 0.3s;
+  
+  .chat-icon {
+    font-size: 1.3rem;
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+}
+
 .theme-toggle {
   cursor: pointer;
   width: 40px;
@@ -740,10 +768,17 @@ nav ul {
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
     margin-bottom: 3rem;
+    width: 100%;
+    overflow-x: hidden;
+    align-items: start;
     
-    @media (max-width: 368px) {
+    @media (max-width: $breakpoint-tablet) {
       grid-template-columns: 1fr;
-      
+      gap: 1.5rem;
+    }
+    
+    @media (max-width: $breakpoint-mobile) {
+      gap: 1rem;
     }
   }
   
@@ -752,9 +787,17 @@ nav ul {
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     background-color: #1e1e1e;
+    display: flex;
+    flex-direction: column;
+    max-height: 950px;
+    height: 950px;
     
     .dark-mode & {
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    
+    @media (max-width: $breakpoint-mobile) {
+      height: 400px;
     }
   }
   
@@ -789,8 +832,14 @@ nav ul {
   
   .editor-content {
     padding: 1rem;
-    max-height: 500px;
     overflow-y: auto;
+    overflow-x: auto;
+    flex: 1;
+    background-color: #1e1e1e;
+    
+    @media (max-width: $breakpoint-mobile) {
+      padding: 0.75rem;
+    }
     
     pre {
       margin: 0;
@@ -798,27 +847,44 @@ nav ul {
       font-size: 0.9rem;
       line-height: 1.5;
       color: #d4d4d4;
+      width: 100%;
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 0.8rem;
+      }
       
       code {
         display: block;
-        white-space: pre;
+        white-space: pre-wrap;
+        word-break: break-word;
+        width: 100%;
       }
     }
   }
   
-  .api-demo {
+  .api-section {
     display: flex;
     flex-direction: column;
+    gap: 1.5rem;
+    height: 950px;
     
     h3 {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       color: $primary-color;
-    }
-    
-    h4 {
-      margin: 1rem 0;
       font-family: $font-headers;
-      font-size: 1rem;
+      font-size: 1.2rem;
+    }
+  }
+  
+  .response-editor {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    
+    .editor-content {
+      flex: 1;
+      overflow-y: auto;
     }
   }
   
@@ -826,7 +892,17 @@ nav ul {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    margin-bottom: 2rem;
+    background-color: #f8f8f8;
+    padding: 1.5rem;
+    border-radius: 8px;
+    
+    .dark-mode & {
+      background-color: #2d2d2d;
+    }
+    
+    @media (max-width: $breakpoint-mobile) {
+      padding: 1rem;
+    }
   }
   
   .endpoint {
@@ -862,7 +938,9 @@ nav ul {
     font-weight: bold;
     font-size: 0.8rem;
     margin-right: 1rem;
-    min-width: 60px;
+    min-width: 0;
+    width: 60px;
+    flex-shrink: 0;
     text-align: center;
     
     &.get {
@@ -890,12 +968,17 @@ nav ul {
     font-family: 'Courier New', monospace;
     margin-right: 1rem;
     flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   
   .description {
     color: #777;
     font-size: 0.9rem;
     flex: 2;
+    min-width: 0;
     
     .dark-mode & {
       color: #aaa;
@@ -907,11 +990,32 @@ nav ul {
     border-radius: 6px;
     padding: 1rem;
     overflow-x: auto;
+    overflow-y: auto;
+    max-width: 100%;
+    margin: 0;
+    flex: 1;
     
-    pre code {
-      font-family: 'Fira Code', monospace;
-      color: #9cdcfe;
-      font-size: 0.9rem;
+    @media (max-width: $breakpoint-mobile) {
+      margin: 0;
+      padding: 0.75rem;
+    }
+    
+    pre {
+      margin: 0;
+      width: 100%;
+      
+      code {
+        font-family: 'Fira Code', monospace;
+        color: #9cdcfe;
+        font-size: 0.9rem;
+        display: block;
+        white-space: pre-wrap;
+        word-break: break-word;
+        
+        @media (max-width: $breakpoint-mobile) {
+          font-size: 0.8rem;
+        }
+      }
     }
   }
   
@@ -1302,9 +1406,13 @@ nav ul {
     display: none;
   }
   
-  // Backend showcase
+  // Backend showcase - hide code editor on mobile
   .backend-showcase {
     grid-template-columns: 1fr;
+    
+    .code-editor {
+      display: none;
+    }
   }
   
   // API demo responsive
@@ -1312,9 +1420,23 @@ nav ul {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
+    padding: 0.5rem;
     
     .method {
       margin-right: 0;
+      width: auto;
+      min-width: 50px;
+    }
+    
+    .url {
+      width: 100%;
+      font-size: 0.8rem;
+    }
+    
+    .description {
+      width: 100%;
+      white-space: normal;
+      font-size: 0.8rem;
     }
   }
   

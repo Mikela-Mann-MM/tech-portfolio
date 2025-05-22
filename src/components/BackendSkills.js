@@ -122,9 +122,9 @@ app.listen(port, () => {
         </div>
       </div>
       
-      <div class="api-demo">
-        <h3>API Endpoints Visualization</h3>
+      <div class="api-section">
         <div class="endpoint-list">
+          <h3>API Endpoints</h3>
           <div class="endpoint">
             <span class="method get">GET</span>
             <span class="url">/api/projects</span>
@@ -152,10 +152,18 @@ app.listen(port, () => {
           </div>
         </div>
         
-        <div class="api-interaction">
-          <h4>Test API Response</h4>
-          <div class="response-container">
-            <pre><code>{
+        <div class="code-editor response-editor">
+          <div class="editor-header">
+            <span class="file-name">response.json</span>
+            <div class="editor-buttons">
+              <span class="editor-btn red"></span>
+              <span class="editor-btn yellow"></span>
+              <span class="editor-btn green"></span>
+            </div>
+          </div>
+          <div class="editor-content">
+            <div class="response-container">
+              <pre><code>{
   "projects": [
     {
       "id": 1,
@@ -175,6 +183,7 @@ app.listen(port, () => {
     }
   ]
 }</code></pre>
+            </div>
           </div>
         </div>
       </div>
@@ -198,23 +207,56 @@ app.listen(port, () => {
       endpoints.forEach(ep => ep.classList.remove('active'))
       endpoint.classList.add('active')
       
-      // Viser forskellige svar would baseret på endpoint
+      // Viser forskellige svar baseret på endpoint
       const responseContainer = document.querySelector('.response-container pre code')
-      if (endpoint.querySelector('.url').textContent.includes(':id')) {
+      const method = endpoint.querySelector('.method').textContent
+      const url = endpoint.querySelector('.url').textContent
+      
+      if (method === 'GET' && url === '/api/projects') {
+        // GET all projects
+        responseContainer.textContent = `{
+  "projects": [
+    {
+      "id": 1,
+      "title": "E-commerce Platform",
+      "description": "Simple online store with cart functionality",
+      "technologies": "Node.js, Express, SQLite, JavaScript",
+      "github_url": "https://github.com/mikelamann/birgersbolcher",
+      "demo_url": "https://birgersbolcher.mikelamann.com"
+    },
+    {
+      "id": 2,
+      "title": "Under construction",
+      "description": "More info coming soon",
+      "technologies": "Express, SQLite, React, SCSS",
+      "github_url": "https://github.com/mikelamann/newproject",
+      "demo_url": "https://newproject.mikelamann.com"
+    }
+  ]
+}`
+      } else if (method === 'GET' && url.includes(':id')) {
+        // GET single project
         responseContainer.textContent = `{
   "id": 1,
   "title": "E-commerce Platform",
   "description": "Full-featured online store with cart functionality",
   "technologies": "Node.js, Express, SQLite, JavaScript",
-  "github_url": "https://github.com/yourusername/ecommerce-platform",
-  "demo_url": "https://demo-ecommerce.yourdomain.com"
+  "github_url": "https://github.com/mikelamann/birgersbolcher",
+  "demo_url": "https://birgersbolcher.mikelamann.com"
 }`
-      } else if (endpoint.querySelector('.method').textContent === 'POST') {
+      } else if (method === 'POST') {
+        // POST new project
         responseContainer.textContent = `{
   "id": 3,
   "message": "Project created successfully"
 }`
-      } else if (endpoint.querySelector('.method').textContent === 'DELETE') {
+      } else if (method === 'PUT') {
+        // PUT update project
+        responseContainer.textContent = `{
+  "message": "Project updated successfully"
+}`
+      } else if (method === 'DELETE') {
+        // DELETE project
         responseContainer.textContent = `{
   "message": "Project with id 2 deleted successfully"
 }`
