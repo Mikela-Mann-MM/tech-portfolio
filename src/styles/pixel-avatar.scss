@@ -90,6 +90,23 @@ $font-main: 'Courier New', monospace;
   }
 }
 
+// Video container styles
+.pixel-video-container {
+  video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: $border-radius;
+  }
+}
+
+// Chat interface wrapper
+.pixel-chat-interface {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 // Header styles
 .pixel-popup-header {
   display: flex;
