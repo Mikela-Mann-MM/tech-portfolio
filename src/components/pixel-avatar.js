@@ -14,72 +14,212 @@ export function renderPixelAvatar() {
   // Hidden by default
   avatarSection.style.display = 'none'
   
-  // Create chat interface HTML
+  // Create video container first
   avatarSection.innerHTML = `
     <div class="pixel-avatar-popup">
       <div class="pixel-popup-container">
-        <!-- Header with close button -->
-        <div class="pixel-popup-header">
-          <div class="pixel-popup-title">AI Assistant</div>
-          <div class="pixel-popup-close">✕</div>
-        </div>
-        
-        <!-- Chat messages area -->
-        <div class="pixel-popup-messages" id="pixel-chat-messages">
-          <div class="pixel-message avatar-message">
-            <div class="pixel-message-text">Hello! I'm your AI assistant. I can tell you about my skills, projects, and experience. What would you like to know?</div>
+        <!-- Video container -->
+        <div class="pixel-video-container" id="pixel-video-container">
+          <video id="avatar-intro-video" width="100%" height="auto" muted playsinline>
+            <source src="/src/assets/Avatar.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="pixel-video-overlay" id="video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); cursor: pointer;">
+            <button class="pixel-play-btn" style="background: linear-gradient(45deg, #0df, #f0f); color: #fff; border: none; padding: 0.8rem 1.5rem; border-radius: 4px; font-size: 1rem; cursor: pointer; font-family: 'Courier New', monospace; font-weight: bold; transition: transform 0.3s, box-shadow 0.3s;">
+              Play
+            </button>
+          </div>
+          <div class="pixel-video-controls" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: none; gap: 10px;" id="video-controls">
+            <button class="pixel-video-close" id="video-close-btn" style="background: linear-gradient(45deg, #0df, #f0f); color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer; font-family: 'Courier New', monospace; font-weight: bold; font-size: 0.9rem; transition: transform 0.3s, box-shadow 0.3s;">Close</button>
+            <button class="pixel-video-unmute" id="unmute-btn" style="background: linear-gradient(45deg, #0df, #f0f); color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer; font-family: 'Courier New', monospace; font-weight: bold; font-size: 0.9rem; transition: transform 0.3s, box-shadow 0.3s;">Unmute</button>
           </div>
         </div>
         
-        <!-- Name input area -->
-        <div class="pixel-name-container" id="pixel-name-container">
-          <input type="text" class="pixel-input" id="pixel-name-input" placeholder="Your name (optional)">
-          <button class="pixel-button" id="pixel-set-name-btn">Set</button>
-        </div>
-        
-        <!-- Message input area -->
-        <div class="pixel-input-container">
-          <input type="text" class="pixel-input" id="pixel-message-input" placeholder="Ask me anything...">
-          <button class="pixel-button" id="pixel-send-btn">Send</button>
-        </div>
-        
-        <!-- Quick question buttons -->
-        <div class="pixel-quick-questions">
-          <button class="pixel-quick-btn" data-question="What technologies do you know?">Tech Stack</button>
-          <button class="pixel-quick-btn" data-question="Tell me about your projects">Projects</button>
-          <button class="pixel-quick-btn" data-question="What is your experience?">Experience</button>
-          <button class="pixel-quick-btn" data-question="How do you approach development?">Process</button>
+        <!-- Chat interface (hidden initially) -->
+        <div class="pixel-chat-interface" id="pixel-chat-interface" style="display: none;">
+          <!-- Header with close button -->
+          <div class="pixel-popup-header">
+            <div class="pixel-popup-title">AI Assistant</div>
+            <div class="pixel-popup-close">✕</div>
+          </div>
+          
+          <!-- Chat messages area -->
+          <div class="pixel-popup-messages" id="pixel-chat-messages">
+            <div class="pixel-message avatar-message">
+              <div class="pixel-message-text">Hello! I'm your AI assistant. I can tell you about my skills, projects, and experience. What would you like to know?</div>
+            </div>
+          </div>
+          
+          <!-- Name input area -->
+          <div class="pixel-name-container" id="pixel-name-container">
+            <input type="text" class="pixel-input" id="pixel-name-input" placeholder="Your name (optional)">
+            <button class="pixel-button" id="pixel-set-name-btn">Set</button>
+          </div>
+          
+          <!-- Message input area -->
+          <div class="pixel-input-container">
+            <input type="text" class="pixel-input" id="pixel-message-input" placeholder="Ask me anything...">
+            <button class="pixel-button" id="pixel-send-btn">Send</button>
+          </div>
+          
+          <!-- Quick question buttons -->
+          <div class="pixel-quick-questions">
+            <button class="pixel-quick-btn" data-question="What technologies do you know?">Tech Stack</button>
+            <button class="pixel-quick-btn" data-question="Tell me about your projects">Projects</button>
+            <button class="pixel-quick-btn" data-question="What is your experience?">Experience</button>
+            <button class="pixel-quick-btn" data-question="How do you approach development?">Process</button>
+          </div>
         </div>
       </div>
     </div>
   `
   
   // Get elements
-  const closeButton = avatarSection.querySelector('.pixel-popup-close')
-  const messageInput = document.getElementById('pixel-message-input')
-  const sendButton = document.getElementById('pixel-send-btn')
-  const nameInput = document.getElementById('pixel-name-input')
-  const setNameButton = document.getElementById('pixel-set-name-btn')
-  const quickButtons = avatarSection.querySelectorAll('.pixel-quick-btn')
-  const messagesContainer = document.getElementById('pixel-chat-messages')
-  const nameContainer = document.getElementById('pixel-name-container')
+  const video = document.getElementById('avatar-intro-video')
+  const videoContainer = document.getElementById('pixel-video-container')
+  const chatInterface = document.getElementById('pixel-chat-interface')
+  const unmuteBtn = document.getElementById('unmute-btn')
+  const videoOverlay = document.getElementById('video-overlay')
+  const videoCloseBtn = document.getElementById('video-close-btn')
+  const videoControls = document.getElementById('video-controls')
   
-  let visitorName = ''
+  // Make video container relative for absolute positioning
+  videoContainer.style.position = 'relative'
   
-  // Close button handler
-  closeButton.addEventListener('click', () => {
-    avatarSection.style.display = 'none'
-    // Clear chat history when closing
-    messagesContainer.innerHTML = `
-      <div class="pixel-message avatar-message">
-        <div class="pixel-message-text">Hello! I'm your AI assistant. I can tell you about my skills, projects, and experience. What would you like to know?</div>
-      </div>
-    `
-    // Reset name input if it was shown
-    nameContainer.style.display = 'block'
-    nameInput.value = ''
-    visitorName = ''
+  // Set controls container to flex
+  if (videoControls) {
+    videoControls.style.display = 'none'
+    videoControls.style.flexDirection = 'row'
+  }
+  
+  // Handle play button
+  if (videoOverlay) {
+    const playBtn = videoOverlay.querySelector('.pixel-play-btn')
+    
+    // Add hover effects
+    playBtn.addEventListener('mouseenter', () => {
+      playBtn.style.transform = 'translateY(-2px)'
+      playBtn.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)'
+    })
+    
+    playBtn.addEventListener('mouseleave', () => {
+      playBtn.style.transform = 'translateY(0)'
+      playBtn.style.boxShadow = 'none'
+    })
+    
+    videoOverlay.addEventListener('click', () => {
+      video.play()
+      videoOverlay.style.display = 'none'
+      if (videoControls) {
+        videoControls.style.display = 'flex'
+      }
+    })
+  }
+  
+  // Handle unmute button
+  if (unmuteBtn) {
+    // Add hover effects
+    unmuteBtn.addEventListener('mouseenter', () => {
+      unmuteBtn.style.transform = 'translateY(-2px)'
+      unmuteBtn.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)'
+    })
+    
+    unmuteBtn.addEventListener('mouseleave', () => {
+      unmuteBtn.style.transform = 'translateY(0)'
+      unmuteBtn.style.boxShadow = 'none'
+    })
+    
+    unmuteBtn.addEventListener('click', () => {
+      video.muted = !video.muted
+      unmuteBtn.textContent = video.muted ? 'Unmute' : 'Mute'
+    })
+  }
+  
+  // Handle close button
+  if (videoCloseBtn) {
+    // Add hover effects
+    videoCloseBtn.addEventListener('mouseenter', () => {
+      videoCloseBtn.style.transform = 'translateY(-2px)'
+      videoCloseBtn.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)'
+    })
+    
+    videoCloseBtn.addEventListener('mouseleave', () => {
+      videoCloseBtn.style.transform = 'translateY(0)'
+      videoCloseBtn.style.boxShadow = 'none'
+    })
+    
+    videoCloseBtn.addEventListener('click', () => {
+      // Skip to chat interface
+      video.pause()
+      videoContainer.style.display = 'none'
+      chatInterface.style.display = 'block'
+      initializeChatInterface()
+      
+      // Restore play button in Featured Project section
+      if (window.restoreFeaturedPlayButton) {
+        window.restoreFeaturedPlayButton()
+      }
+    })
+  }
+  
+  // Handle video end event
+  video.addEventListener('ended', () => {
+    // Transition from video to chat
+    videoContainer.style.display = 'none'
+    chatInterface.style.display = 'block'
+    
+    // Initialize chat interface after video
+    initializeChatInterface()
+    
+    // Restore play button in Featured Project section
+    if (window.restoreFeaturedPlayButton) {
+      window.restoreFeaturedPlayButton()
+    }
   })
+  
+  // Also handle video error in case it fails to load
+  video.addEventListener('error', () => {
+    console.error('Video failed to load, showing chat interface directly')
+    videoContainer.style.display = 'none'
+    chatInterface.style.display = 'block'
+    initializeChatInterface()
+  })
+  
+  function initializeChatInterface() {
+    const closeButton = avatarSection.querySelector('.pixel-popup-close')
+    const messageInput = document.getElementById('pixel-message-input')
+    const sendButton = document.getElementById('pixel-send-btn')
+    const nameInput = document.getElementById('pixel-name-input')
+    const setNameButton = document.getElementById('pixel-set-name-btn')
+    const quickButtons = avatarSection.querySelectorAll('.pixel-quick-btn')
+    const messagesContainer = document.getElementById('pixel-chat-messages')
+    const nameContainer = document.getElementById('pixel-name-container')
+    
+    let visitorName = ''
+    
+    // Close button handler
+    closeButton.addEventListener('click', () => {
+      avatarSection.style.display = 'none'
+      // Reset for next time
+      videoContainer.style.display = 'block'
+      chatInterface.style.display = 'none'
+      video.currentTime = 0
+      // Clear chat history when closing
+      messagesContainer.innerHTML = `
+        <div class="pixel-message avatar-message">
+          <div class="pixel-message-text">Hello! I'm your AI assistant. I can tell you about my skills, projects, and experience. What would you like to know?</div>
+        </div>
+      `
+      // Reset name input if it was shown
+      nameContainer.style.display = 'block'
+      nameInput.value = ''
+      visitorName = ''
+      
+      // Restore play button in Featured Project section
+      if (window.restoreFeaturedPlayButton) {
+        window.restoreFeaturedPlayButton()
+      }
+    })
   
   // Set name handler
   setNameButton.addEventListener('click', () => {
@@ -196,8 +336,9 @@ export function renderPixelAvatar() {
     }
   }
   
-  // Make the chat interface draggable
-  makeDraggable(avatarSection.querySelector('.pixel-popup-header'), avatarSection.querySelector('.pixel-avatar-popup'))
+    // Make the chat interface draggable
+    makeDraggable(avatarSection.querySelector('.pixel-popup-header'), avatarSection.querySelector('.pixel-avatar-popup'))
+  }
 }
 
 // Draggable functionality

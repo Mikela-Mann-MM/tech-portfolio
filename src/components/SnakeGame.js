@@ -49,12 +49,12 @@ export function startSnakeGame() {
         
       if (collision_detected) {
         clearInterval(gameLoop)
-        alert('Game Over! Page will refresh for a new game.')
-        closeGame()
-        // Refresh siden efter en kort forsinkelse
-        setTimeout(() => {
-          window.location.reload()
-        }, 500)
+        alert('Game Over! Press ESC to close or click × to exit.')
+        // Don't refresh the page - just reset the game state
+        dx = 0
+        dy = 0
+        snake = [{ x: 10, y: 10 }]
+        food = { x: 5, y: 5 }
         return
       }
       
@@ -87,9 +87,13 @@ export function startSnakeGame() {
   }
   
   function closeGame() {
-    
+    // Clean up the game properly
     window.snakeGame = false
-    clearInterval(gameLoop)
+    if (gameLoop) {
+      clearInterval(gameLoop)
+    }
+    // Remove the event listener to prevent memory leaks
+    document.removeEventListener('keydown', handleKeyDown)
     container.classList.remove('snake-game')
     container.classList.add('snake-hidden')
     container.innerHTML = ''

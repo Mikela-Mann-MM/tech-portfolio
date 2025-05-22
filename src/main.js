@@ -1,5 +1,8 @@
 
 import './styles/main.scss'
+
+// Debug reload issue
+console.log('Page loaded at:', new Date().toISOString())
 import { renderHeader } from './components/Header'
 import { renderFooter } from './components/Footer'
 import { renderLogoCarousel } from './components/LogoCarousel'
@@ -31,8 +34,6 @@ document.querySelector('#app').innerHTML = `
         <h2 class="section-title">About Me</h2>
         <div class="about__content">
          <p># Professional Bio: Front-End Developer</p>
-         <!-- Avatar section  ( pop-up)-->
-         <div id="pixel-avatar-section"></div>  <!-- New avatar section -->
          
 <p>## Summary</p>
 <p>
@@ -199,30 +200,56 @@ Creating experiences that are not just functional but memorable. Whether optimiz
   </div>
 `
 
-// Initialize all components
-initPixelAvatar()
-renderHeader()
-renderFooter()
-renderLogoCarousel()
-renderVideoSection() 
-renderAnimatedLogo()
-renderBackendSkills()
-initPixelAvatar()
-renderBackToTop() 
-initCollapsibleSections() 
-initProjectCards()
+// Initialize all components with error handling
+try {
+  renderHeader()
+} catch (e) { console.error('Header error:', e) }
 
-// Easter egg: Snake game
-let snakeGame = false
+try {
+  renderFooter()
+} catch (e) { console.error('Footer error:', e) }
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !snakeGame) {
-    console.log('Snake game activated!')
-    startSnakeGame()
+try {
+  renderLogoCarousel()
+} catch (e) { console.error('LogoCarousel error:', e) }
 
-  }
-})
-// Mobil trigger via klik 
-/* document.getElementById('start-snake-game-btn')?.addEventListener('click', () => {
-  if (!snakeGame) startSnakeGame()
-}) */
+try {
+  renderVideoSection() 
+} catch (e) { console.error('VideoSection error:', e) }
+
+try {
+  renderAnimatedLogo()
+} catch (e) { console.error('AnimatedLogo error:', e) }
+
+try {
+  renderBackendSkills()
+} catch (e) { console.error('BackendSkills error:', e) }
+
+try {
+  initPixelAvatar()
+} catch (e) { console.error('PixelAvatar error:', e) }
+
+try {
+  renderBackToTop() 
+} catch (e) { console.error('BackToTop error:', e) }
+
+try {
+  initCollapsibleSections() 
+} catch (e) { console.error('CollapsibleSections error:', e) }
+
+try {
+  initProjectCards()
+} catch (e) { console.error('ProjectCards error:', e) }
+
+// Easter egg: Snake game - Desktop only with ESC key
+if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+  let snakeGameActive = false
+  
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !snakeGameActive && !window.snakeGame) {
+      console.log('Snake game activated!')
+      snakeGameActive = true
+      startSnakeGame()
+    }
+  })
+}

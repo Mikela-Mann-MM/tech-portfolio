@@ -1,4 +1,12 @@
+// Store observer globally so we can disconnect it
+let headerObserver = null;
+
 export function renderHeader() {
+  // Disconnect previous observer if exists
+  if (headerObserver) {
+    headerObserver.disconnect();
+    headerObserver = null;
+  }
   const header = document.getElementById('header');
 
   header.innerHTML = `
@@ -52,7 +60,7 @@ export function renderHeader() {
     threshold: 0
   };
 
-  const observer = new IntersectionObserver(entries => {
+  headerObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       const id = entry.target.getAttribute('id');
       const activeLink = header.querySelector(`a[href="#${id}"]`);
@@ -63,5 +71,5 @@ export function renderHeader() {
     });
   }, observerOptions);
 
-  sections.forEach(section => observer.observe(section));
+  sections.forEach(section => headerObserver.observe(section));
 }
