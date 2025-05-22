@@ -727,7 +727,72 @@ nav ul {
     border: 2px solid $primary-color;
   }
 
-
+// Featured Project Section
+.showcase {
+  padding: 4rem 0;
+  
+  .video-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    
+    @media (max-width: $breakpoint-tablet) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+  
+  .video-frame {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    
+    video {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #000;
+    }
+  }
+  
+  .video-info {
+    h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: $primary-color;
+      font-family: $font-headers;
+    }
+    
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    
+    .cta-button {
+      background: linear-gradient(45deg, $primary-color, $accent-color);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      font-family: $font-main;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+}
 
 // Backend Skills Section
 .backend-showcase {

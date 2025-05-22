@@ -7,7 +7,7 @@ export function renderVideoSection() {
   videoSection.innerHTML = `
     <div class="video-container">
       <div class="video-frame" style="position: relative;">
-        <video class="video-element" id="featured-video">
+        <video class="project-video" id="featured-video">
           <source src="${avatarVideo}" type="video/mp4"> 
           Your browser does not support the video tag.
         </video>
