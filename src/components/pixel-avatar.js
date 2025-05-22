@@ -399,4 +399,35 @@ export function setupAvatarTrigger() {
 export function initPixelAvatar() {
   renderPixelAvatar()
   setupAvatarTrigger()
+  
+  // Handle window resize - hide popup on mobile sizes
+  let resizeTimeout
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout)
+    resizeTimeout = setTimeout(() => {
+      const isMobile = window.innerWidth <= 480
+      const avatarSection = document.getElementById('pixel-avatar-section')
+      const avatarPopup = avatarSection?.querySelector('.pixel-avatar-popup')
+      
+      // Hide popup if resizing to mobile width
+      if (isMobile && avatarSection && avatarSection.style.display === 'block') {
+        // Only hide if it was auto-shown (not manually opened)
+        const videoContainer = document.getElementById('pixel-video-container')
+        const chatInterface = document.getElementById('pixel-chat-interface')
+        
+        // Check if user is actively using it
+        const isVideoPlaying = videoContainer?.querySelector('video')?.paused === false
+        const hasChatMessages = chatInterface?.querySelectorAll('.pixel-message').length > 2
+        
+        // Only hide if not actively being used
+        if (!isVideoPlaying && !hasChatMessages) {
+          avatarSection.style.display = 'none'
+          avatarSection.style.visibility = 'hidden'
+          if (avatarPopup) {
+            avatarPopup.style.display = 'none'
+          }
+        }
+      }
+    }, 250) // Debounce resize events
+  })
 }
