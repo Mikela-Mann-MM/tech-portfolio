@@ -727,6 +727,11 @@ nav ul {
     @media (max-width: $breakpoint-tablet) {
       gap: 1rem;
     }
+    
+    @media (max-width: $breakpoint-mobile) {
+      padding: 0;
+      gap: 1rem;
+    }
   }
   
   .code-editor {
@@ -734,16 +739,17 @@ nav ul {
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     background-color: #1e1e1e;
-    min-height: 400px;
     display: flex;
     flex-direction: column;
+    height: fit-content;
     
     .dark-mode & {
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     }
     
-    @media (max-width: $breakpoint-tablet) {
-      min-height: 350px;
+    @media (max-width: $breakpoint-mobile) {
+      width: 100%;
+      min-width: 0;
     }
   }
   
@@ -778,9 +784,8 @@ nav ul {
   
   .editor-content {
     padding: 1rem;
-    max-height: 500px;
     overflow-y: auto;
-    flex: 1;
+    background-color: #1e1e1e;
     
     pre {
       margin: 0;
@@ -799,6 +804,7 @@ nav ul {
   .api-demo {
     display: flex;
     flex-direction: column;
+    background-color: transparent;
     
     h3 {
       margin-bottom: 1.5rem;
