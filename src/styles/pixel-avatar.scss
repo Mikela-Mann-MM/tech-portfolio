@@ -55,6 +55,8 @@ $font-main: 'Courier New', monospace;
   z-index: 9999;
   font-family: $font-main;
   @include elegant-shadow;
+  max-width: calc(100vw - 50px);
+  max-height: calc(100vh - 50px);
   
   .pixel-popup-container {
     width: 340px;

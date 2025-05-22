@@ -363,8 +363,15 @@ function makeDraggable(handle, dragElement) {
     const newX = posLeft + e.clientX - posX
     const newY = posTop + e.clientY - posY
     
-    dragElement.style.left = newX + 'px'
-    dragElement.style.top = newY + 'px'
+    // Constrain to viewport
+    const maxX = window.innerWidth - dragElement.offsetWidth
+    const maxY = window.innerHeight - dragElement.offsetHeight
+    
+    const constrainedX = Math.max(0, Math.min(newX, maxX))
+    const constrainedY = Math.max(0, Math.min(newY, maxY))
+    
+    dragElement.style.left = constrainedX + 'px'
+    dragElement.style.top = constrainedY + 'px'
     dragElement.style.bottom = 'auto'
     dragElement.style.right = 'auto'
   }
