@@ -7,10 +7,11 @@ export function renderVideoSection() {
   videoSection.innerHTML = `
     <div class="video-container">
       <div class="video-frame" style="position: relative;">
-        <video class="project-video" id="featured-video">
+        <video class="project-video" id="featured-video" style="display: none;">
           <source src="${avatarVideo}" type="video/mp4"> 
           Your browser does not support the video tag.
         </video>
+        <img src="https://via.placeholder.com/600x400/0df/fff?text=Featured+Project" alt="Featured Project" class="video-placeholder" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; border-radius: 8px;">
         <div class="featured-video-overlay" id="featured-video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); cursor: pointer; border-radius: 8px;">
           <button class="featured-play-btn" style="background: linear-gradient(45deg, #0df, #f0f); color: #fff; border: none; padding: 1rem 2rem; border-radius: 4px; font-size: 1.2rem; cursor: pointer; font-family: 'Courier New', monospace; font-weight: bold; transition: transform 0.3s, box-shadow 0.3s;">
             Play
@@ -58,11 +59,6 @@ export function renderVideoSection() {
       
       // Function to restore play button
       const restorePlayButton = () => {
-        // Restore video visibility
-        const featuredVideo = document.querySelector('.project-video')
-        if (featuredVideo) {
-          featuredVideo.style.visibility = 'visible'
-        }
         
         videoOverlay.innerHTML = originalOverlayHTML
         videoOverlay.style.display = 'flex'
@@ -274,11 +270,7 @@ export function renderVideoSection() {
         
         // Show avatar popup after animation
         setTimeout(() => {
-          // Hide the featured project video
-          const featuredVideo = document.querySelector('.project-video')
-          if (featuredVideo) {
-            featuredVideo.style.visibility = 'hidden'
-          }
+          // Keep the placeholder visible - it stays in the featured section
           
           const avatarSection = document.getElementById('pixel-avatar-section')
           const avatarPopup = avatarSection?.querySelector('.pixel-avatar-popup')
