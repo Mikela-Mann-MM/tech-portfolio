@@ -11,12 +11,13 @@ export function renderPixelAvatar() {
   }
   
   
-  // Hidden by default
+  // Hidden by default - force hide
   avatarSection.style.display = 'none'
+  avatarSection.style.visibility = 'hidden'
   
   // Create video container first
   avatarSection.innerHTML = `
-    <div class="pixel-avatar-popup">
+    <div class="pixel-avatar-popup" style="display: none;">
       <div class="pixel-popup-container">
         <!-- Video container -->
         <div class="pixel-video-container" id="pixel-video-container">
@@ -384,8 +385,11 @@ export function setupAvatarTrigger() {
   if (!isMobile) {
     setTimeout(() => {
       const avatarSection = document.getElementById('pixel-avatar-section')
-      if (avatarSection) {
+      const avatarPopup = avatarSection?.querySelector('.pixel-avatar-popup')
+      if (avatarSection && avatarPopup) {
         avatarSection.style.display = 'block'
+        avatarSection.style.visibility = 'visible'
+        avatarPopup.style.display = 'block'
       }
     }, 2000) // Show after 2 seconds on desktop only
   }

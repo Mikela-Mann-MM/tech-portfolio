@@ -281,8 +281,11 @@ export function renderVideoSection() {
           }
           
           const avatarSection = document.getElementById('pixel-avatar-section')
-          if (avatarSection) {
+          const avatarPopup = avatarSection?.querySelector('.pixel-avatar-popup')
+          if (avatarSection && avatarPopup) {
             avatarSection.style.display = 'block'
+            avatarSection.style.visibility = 'visible'
+            avatarPopup.style.display = 'block'
             
             // Make sure video container is visible and chat is hidden
             const videoContainer = document.getElementById('pixel-video-container')
