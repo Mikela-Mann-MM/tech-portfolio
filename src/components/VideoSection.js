@@ -1,4 +1,4 @@
-import avatarVideo from '/assets/Avatar.mp4'
+import avatarVideo from '/Avatar.mp4'
 
 
 export function renderVideoSection() {
