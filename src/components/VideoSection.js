@@ -19,8 +19,9 @@ export function renderVideoSection() {
       </div>
       <div class="video-info">
         <h3>Welcome</h3>
-        <p>Hi, I’m Mikela – a Copenhagen-based front-end developer in progress. This short video gives you a quick intro to who I am and what I do.</p>
+        <p>Hi, I'm Mikela – a Copenhagen-based front-end developer in progress. This short video gives you a quick intro to who I am and what I do.</p>
         <button class="cta-button">Learn More</button>
+        
       </div>
     </div>
   `
@@ -29,7 +30,7 @@ export function renderVideoSection() {
     const ctaButton = videoSection.querySelector('.cta-button')
     if (ctaButton) {
       ctaButton.addEventListener('click', () => {
-        const aboutSection = document.getElementById('skills')
+        const aboutSection = document.getElementById('about')
         if (aboutSection) {
           aboutSection.scrollIntoView({ behavior: 'smooth' })
         }
@@ -79,194 +80,18 @@ export function renderVideoSection() {
       // Store restore function globally so avatar component can call it
       window.restoreFeaturedPlayButton = restorePlayButton
       
-      // Function to handle the animation
-      const triggerAnimation = () => {
-        // Get positions for animation
-        const videoRect = video.getBoundingClientRect()
-        const startX = videoRect.left + videoRect.width / 2
-        const startY = videoRect.top + videoRect.height / 2
-        
-        // Temporarily hide avatar if it's visible
-        const avatarSection = document.getElementById('pixel-avatar-section')
-        let avatarWasVisible = false
-        if (avatarSection && avatarSection.style.display === 'block') {
-          avatarWasVisible = true
-          avatarSection.style.display = 'none'
-        }
-        
-        // Temporarily remove overflow hidden from video frame
-        const videoFrame = video.closest('.video-frame')
-        if (videoFrame) {
-          videoFrame.style.overflow = 'visible'
-        }
-        
-        // Create a clone of the video for animation
-        const videoClone = document.createElement('div')
-        videoClone.style.cssText = `
-          position: fixed;
-          left: ${videoRect.left}px;
-          top: ${videoRect.top}px;
-          width: ${videoRect.width}px;
-          height: ${videoRect.height}px;
-          background: linear-gradient(45deg, #0df, #f0f);
-          border-radius: 8px;
-          z-index: 9999;
-          transition: none;
-          animation: quirkyBounce 1.5s ease-in-out;
-        `
-        
-        // Create style for quirky animation
-        const style = document.createElement('style')
-        style.textContent = `
-          @keyframes quirkyBounce {
-            0% {
-              transform: translate(0, 0) rotate(0deg) scale(1);
-            }
-            20% {
-              transform: translate(-50px, -100px) rotate(-15deg) scale(1.1);
-            }
-            40% {
-              transform: translate(100px, -150px) rotate(25deg) scale(0.9);
-            }
-            60% {
-              transform: translate(-30px, -80px) rotate(-10deg) scale(1.05);
-            }
-            80% {
-              transform: translate(${window.innerWidth - videoRect.right - 100}px, ${window.innerHeight - videoRect.bottom - 100}px) rotate(360deg) scale(0.8);
-            }
-            100% {
-              transform: translate(${window.innerWidth - videoRect.right - 170}px, ${window.innerHeight - videoRect.bottom - 200}px) rotate(720deg) scale(0.3);
-              opacity: 0;
-            }
-          }
-        `
-        document.head.appendChild(style)
-        document.body.appendChild(videoClone)
-        
-        // Add particle effects
-        for (let i = 0; i < 8; i++) {
-          const particle = document.createElement('div')
-          particle.style.cssText = `
-            position: fixed;
-            left: ${startX}px;
-            top: ${startY}px;
-            width: 10px;
-            height: 10px;
-            background: ${i % 2 === 0 ? '#0df' : '#f0f'};
-            border-radius: 50%;
-            z-index: 9998;
-            animation: particle${i} 1s ease-out forwards;
-          `
-          
-          const particleStyle = document.createElement('style')
-          particleStyle.textContent = `
-            @keyframes particle${i} {
-              to {
-                transform: translate(${(Math.random() - 0.5) * 200}px, ${(Math.random() - 0.5) * 200}px) scale(0);
-                opacity: 0;
-              }
-            }
-          `
-          document.head.appendChild(particleStyle)
-          document.body.appendChild(particle)
-          
-          setTimeout(() => {
-            particle.remove()
-            particleStyle.remove()
-          }, 1000)
-        }
-        
-        // Play a fun sound effect (using Web Audio API)
-        try {
-          const audioContext = new (window.AudioContext || window.webkitAudioContext)()
-          const oscillator = audioContext.createOscillator()
-          const gainNode = audioContext.createGain()
-          
-          oscillator.connect(gainNode)
-          gainNode.connect(audioContext.destination)
-          
-          oscillator.type = 'sine'
-          oscillator.frequency.setValueAtTime(200, audioContext.currentTime)
-          oscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 0.3)
-          oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.6)
-          
-          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime)
-          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.6)
-          
-          oscillator.start(audioContext.currentTime)
-          oscillator.stop(audioContext.currentTime + 0.6)
-          
-          // Clean up audio context after sound finishes
-          setTimeout(() => {
-            audioContext.close()
-          }, 700)
-          
-          // Also close immediately on page unload
-          window.addEventListener('unload', () => audioContext.close(), { once: true })
-        } catch (err) {
-          console.log('Audio playback not available:', err)
-        }
-        
-        // Replace play button with retro loader
-        videoOverlay.style.color = 'white'
+      // Simplified function to handle play button click
+      const handlePlayClick = () => {
+        // Show simple loading text
         videoOverlay.innerHTML = `
-          <div style="display: flex; flex-direction: column; align-items: center; gap: 20px; color: white !important;">
-            <div style="font-family: 'Press Start 2P', 'Courier New', monospace; color: white !important; font-size: 16px; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); -webkit-text-fill-color: white !important;">
-              <span style="color: white !important;">Playing</span>
-            </div>
-            <div class="amiga-loader" style="display: flex; gap: 8px;">
-              <div class="loader-block" style="width: 20px; height: 20px; background: #0df; animation: amigaPulse 0.6s infinite;"></div>
-              <div class="loader-block" style="width: 20px; height: 20px; background: #f0f; animation: amigaPulse 0.6s infinite 0.2s;"></div>
-              <div class="loader-block" style="width: 20px; height: 20px; background: #0f0; animation: amigaPulse 0.6s infinite 0.4s;"></div>
-            </div>
-            <div style="font-family: 'Courier New', monospace; color: white !important; font-size: 14px; margin-top: 10px; font-weight: 700; -webkit-text-fill-color: white !important;">
-              <strong style="color: white !important;">LOADING AVATAR...</strong>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 20px; color: white;">
+            <div style="font-family: 'Courier New', monospace; color: white; font-size: 16px; font-weight: bold;">
+              Loading...
             </div>
           </div>
         `
         
-        // Add retro animation styles
-        const loaderStyle = document.createElement('style')
-        loaderStyle.textContent = `
-          @keyframes amigaPulse {
-            0%, 100% {
-              transform: scale(1) rotateZ(0deg);
-              opacity: 0.3;
-            }
-            50% {
-              transform: scale(1.5) rotateZ(180deg);
-              opacity: 1;
-            }
-          }
-          
-          @keyframes retroBlink {
-            0%, 49% { opacity: 1; }
-            50%, 100% { opacity: 0; }
-          }
-        `
-        document.head.appendChild(loaderStyle)
-        
-        // Add progress counter
-        let progress = 0
-        const progressInterval = setInterval(() => {
-          progress += Math.floor(Math.random() * 25) + 15
-          if (progress > 100) progress = 100
-          
-          const loadingText = videoOverlay.querySelector('div:last-child')
-          if (loadingText) {
-            if (progress >= 100) {
-              loadingText.innerHTML = `<strong>PLAYING...</strong>`
-            } else {
-              loadingText.innerHTML = `<strong>LOADING AVATAR... ${progress}%</strong>`
-            }
-          }
-          
-          if (progress >= 100) {
-            clearInterval(progressInterval)
-          }
-        }, 100)
-        
-        // Show avatar popup after animation
+        // Show avatar popup after a short delay
         setTimeout(() => {
           const avatarSection = document.getElementById('pixel-avatar-section')
           if (avatarSection) {
@@ -304,20 +129,11 @@ export function renderVideoSection() {
               })
             }
           }
-          videoClone.remove()
-          style.remove()
-          loaderStyle.remove()
-          clearInterval(progressInterval)
-          
-          // Restore overflow hidden
-          if (videoFrame) {
-            videoFrame.style.overflow = 'hidden'
-          }
-        }, 1400)
+        }, 500)
       }
       
       // Add event listener to overlay
-      videoOverlay.addEventListener('click', triggerAnimation)
+      videoOverlay.addEventListener('click', handlePlayClick)
       
       // Also re-add listener when play button is restored
       const originalRestorePlayButton = restorePlayButton
@@ -327,9 +143,9 @@ export function renderVideoSection() {
         setTimeout(() => {
           const restoredOverlay = document.getElementById('featured-video-overlay')
           if (restoredOverlay) {
-            restoredOverlay.addEventListener('click', triggerAnimation)
+            restoredOverlay.addEventListener('click', handlePlayClick)
           }
         }, 100)
       }
     }
-  } 
+  }

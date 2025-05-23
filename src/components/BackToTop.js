@@ -22,8 +22,9 @@ export function renderBackToTop() {
     // Lav button element
     backToTopBtn = document.createElement('button');
     backToTopBtn.id = 'back-to-top-btn';
-    backToTopBtn.innerHTML = '&uarr;'; // 
-    backToTopBtn.classList.add('back-to-top-btn', 'hidden');
+    backToTopBtn.innerHTML = '💬'; // Start with chat icon
+    backToTopBtn.classList.add('back-to-top-btn');
+    backToTopBtn.setAttribute('data-mode', 'chat');
     
     // Append button elementet
     document.body.appendChild(backToTopBtn);
@@ -35,10 +36,14 @@ export function renderBackToTop() {
       }
       
       scrollTimeout = setTimeout(() => {
-        if (window.pageYOffset > 300) {
-          backToTopBtn.classList.remove('hidden');
+        if (window.pageYOffset > 100) {
+          // Switch to back-to-top mode when scrolling
+          backToTopBtn.innerHTML = '&uarr;';
+          backToTopBtn.setAttribute('data-mode', 'scroll');
         } else {
-          backToTopBtn.classList.add('hidden');
+          // Switch to chat mode at top
+          backToTopBtn.innerHTML = '💬';
+          backToTopBtn.setAttribute('data-mode', 'chat');
         }
       }, 50); // Debounce by 50ms
     };
@@ -56,17 +61,39 @@ export function renderBackToTop() {
       }
     });
     
-    // Different behavior for mobile vs desktop
+    // Different behavior based on mode and device
     backToTopBtn.addEventListener('click', () => {
-      if (isMobile) {
-        // On mobile, start snake game
-        startSnakeGame();
+      const mode = backToTopBtn.getAttribute('data-mode');
+      
+      if (mode === 'chat') {
+        // Open chat interface
+        const avatarSection = document.getElementById('pixel-avatar-section');
+        const chatInterface = document.getElementById('pixel-chat-interface');
+        const videoContainer = document.getElementById('pixel-video-container');
+        
+        if (avatarSection) {
+          avatarSection.style.display = 'block';
+          // Show chat directly, skip video
+          if (videoContainer) videoContainer.style.display = 'none';
+          if (chatInterface) chatInterface.style.display = 'block';
+          
+          // Initialize chat if needed
+          if (window.initializeChatInterface) {
+            window.initializeChatInterface();
+          }
+        }
       } else {
-        // On desktop, scroll to top
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
+        // Scroll mode
+        if (isMobile) {
+          // On mobile, start snake game
+          startSnakeGame();
+        } else {
+          // On desktop, scroll to top
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
       }
     });
   } 

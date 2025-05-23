@@ -185,7 +185,8 @@ export function renderPixelAvatar() {
     initializeChatInterface()
   })
   
-  function initializeChatInterface() {
+  // Make initializeChatInterface globally available
+  window.initializeChatInterface = function initializeChatInterface() {
     const closeButton = avatarSection.querySelector('.pixel-popup-close')
     const messageInput = document.getElementById('pixel-message-input')
     const sendButton = document.getElementById('pixel-send-btn')
@@ -196,10 +197,16 @@ export function renderPixelAvatar() {
     const nameContainer = document.getElementById('pixel-name-container')
     
     let visitorName = ''
+    let currentTypingInterval = null // Add this variable to track typing animation
     
     // Close button handler
     closeButton.addEventListener('click', () => {
       avatarSection.style.display = 'none'
+      // Clear any ongoing typing animation
+      if (currentTypingInterval) {
+        clearInterval(currentTypingInterval)
+        currentTypingInterval = null
+      }
       // Reset for next time
       videoContainer.style.display = 'block'
       chatInterface.style.display = 'none'
@@ -271,6 +278,12 @@ export function renderPixelAvatar() {
   }
   
   function addAvatarMessage(message) {
+    // Clear any existing typing animation before starting a new one
+    if (currentTypingInterval) {
+      clearInterval(currentTypingInterval)
+      currentTypingInterval = null
+    }
+    
     const messageElement = document.createElement('div')
     messageElement.className = 'pixel-message avatar-message'
     
@@ -290,13 +303,14 @@ export function renderPixelAvatar() {
       messageElement.appendChild(messageText)
       
       let i = 0
-      const typeInterval = setInterval(() => {
+      currentTypingInterval = setInterval(() => {
         if (i < message.length) {
           messageText.textContent += message.charAt(i)
           messagesContainer.scrollTop = messagesContainer.scrollHeight
           i++
         } else {
-          clearInterval(typeInterval)
+          clearInterval(currentTypingInterval)
+          currentTypingInterval = null
         }
       }, 30)
     }, 1000)
@@ -311,7 +325,7 @@ export function renderPixelAvatar() {
       addAvatarMessage(`${greeting} How can I help you today?`)
     }
     else if (message.includes('name')) {
-      addAvatarMessage("I'm an AI assistant representing the portfolio owner. I can answer questions about their skills and work.")
+      addAvatarMessage("I'm an AI assistant representing Mikela. I can answer questions about her skills and work.")
     }
     else if (message.includes('tech') || message.includes('stack') || message.includes('technologies')) {
       addAvatarMessage("I specialize in HTML, CSS (including SCSS/SASS), JavaScript, REST APIs, Express, Node.js, and SQLite. I'm currently expanding my skills with React and Tailwind CSS. I also have interests in AI technologies.")
@@ -332,7 +346,7 @@ export function renderPixelAvatar() {
       addAvatarMessage("I'm currently exploring AI technologies and plan to integrate more advanced features into my work. This conversational interface is just the beginning of my journey into AI.")
     }
     else {
-      addAvatarMessage("That's an interesting question! While I have knowledge about the portfolio owner's skills and projects, I might not have all the details. Feel free to ask something more specific about their technologies, projects, or development approach.")
+      addAvatarMessage("That's an interesting question! I am just an avatar and while I have knowledge about her skills and projects, I might not have all the details. Feel free to ask something more specific about technologies, projects, or development approach.")
     }
   }
   
@@ -363,8 +377,15 @@ function makeDraggable(handle, dragElement) {
     const newX = posLeft + e.clientX - posX
     const newY = posTop + e.clientY - posY
     
-    dragElement.style.left = newX + 'px'
-    dragElement.style.top = newY + 'px'
+    // Constrain to viewport
+    const maxX = window.innerWidth - dragElement.offsetWidth
+    const maxY = window.innerHeight - dragElement.offsetHeight
+    
+    const constrainedX = Math.max(0, Math.min(newX, maxX))
+    const constrainedY = Math.max(0, Math.min(newY, maxY))
+    
+    dragElement.style.left = constrainedX + 'px'
+    dragElement.style.top = constrainedY + 'px'
     dragElement.style.bottom = 'auto'
     dragElement.style.right = 'auto'
   }
