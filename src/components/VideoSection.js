@@ -1,7 +1,7 @@
-import avatarVideo from '../assets/Avatar.mp4'
-
-
 export function renderVideoSection() {
+ 
+  const avatarVideo = '/assets/Avatar.mp4'
+  
   const videoSection = document.getElementById('video-section')
   
   videoSection.innerHTML = `
