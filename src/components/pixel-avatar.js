@@ -1,4 +1,4 @@
-// src/components/pixel-avatar.js
+
 import '../styles/pixel-avatar.scss'
 
 export function renderPixelAvatar() {
@@ -21,7 +21,7 @@ export function renderPixelAvatar() {
         <!-- Video container -->
         <div class="pixel-video-container" id="pixel-video-container">
           <video id="avatar-intro-video" width="100%" height="auto" muted playsinline>
-            <source src="/src/assets/Avatar.mp4" type="video/mp4">
+            <source src="/assets/Avatar.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
           <div class="pixel-video-overlay" id="video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); cursor: pointer;">
