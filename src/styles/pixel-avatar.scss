@@ -7,19 +7,35 @@ $secondary-color: #e1f5fe; // Let blå, elegant
 $accent-color: #5ebddf;   // Mellemblå accent (sofistikeret)
 $light-bg: #f5f9fc;       // Lys baggrund for kontrast
 $light-text: #2c3e50;     // Mørkere tekst for bedre læsbarhed
+
+// Dark mode variables
+$dark-bg: #1a1a1a;
+$dark-container-bg: #262626;
+$dark-secondary-bg: #2a2a2a;
+$dark-input-bg: #333333;
+$dark-text: #f1f1f1;
+$dark-border: #404040;
+
 $border-size: 2px;
 $border-radius: 12px;
 $border-radius-sm: 8px;
 $font-main: 'Courier New', monospace;
-
 
 // Mixins
 @mixin elegant-shadow {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
+@mixin dark-shadow {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
 @mixin soft-shadow {
   box-shadow: 0 4px 16px rgba(0, 30, 60, 0.15);
+}
+
+@mixin dark-soft-shadow {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 @mixin pixel-border($color) {
@@ -45,6 +61,21 @@ $font-main: 'Courier New', monospace;
   50% {
     transform: translateY(-3px);
   }
+}
+
+@keyframes cursor-blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 // Base styles
@@ -81,13 +112,21 @@ $font-main: 'Courier New', monospace;
       border-radius: calc($border-radius + 2px);
     }
   }
-  
-  // Dark mode overrides
-  .dark-mode & {
+}
+
+// Dark mode wrapper - moved outside and simplified
+.dark-mode {
+  .pixel-avatar-popup {
+    @include dark-shadow;
+    
     .pixel-popup-container {
-      background-color: #262626;
-      color: #f1f1f1;
+      background-color: $dark-container-bg;
+      color: $dark-text;
       border-color: rgba($primary-color, 0.4);
+      
+      &::before {
+        opacity: 0.25;
+      }
     }
   }
 }
@@ -214,11 +253,6 @@ $font-main: 'Courier New', monospace;
         margin-left: 3px;
         opacity: 0.8;
       }
-      
-      .dark-mode & {
-        background-color: #3a3a3a;
-        color: #f1f1f1;
-      }
     }
     
     &.user-message .pixel-message-text {
@@ -226,6 +260,30 @@ $font-main: 'Courier New', monospace;
       border-bottom-right-radius: 4px;
       color: #fff;
       text-align: right;
+    }
+  }
+}
+
+// Dark mode for messages
+.dark-mode {
+  .pixel-popup-messages {
+    background-color: color.adjust($dark-container-bg, $lightness: -3%);
+    background-image: radial-gradient(rgba($primary-color, 0.08) 1px, transparent 1px);
+    scrollbar-color: $primary-color $dark-container-bg;
+    
+    &::-webkit-scrollbar-track {
+      background: color.adjust($dark-container-bg, $lightness: -3%);
+    }
+    
+    .pixel-message {
+      &.avatar-message .pixel-message-text {
+        background-color: $dark-secondary-bg;
+        color: $dark-text;
+      }
+      
+      .pixel-message-text {
+        box-shadow: 0 1px 3px rgba(0,0,0, 0.3);
+      }
     }
   }
 }
@@ -241,10 +299,6 @@ $font-main: 'Courier New', monospace;
   align-self: flex-start;
   max-width: 85%;
   margin-bottom: 10px;
-  
-  .dark-mode & {
-    background-color: #3a3a3a;
-  }
   
   .pixel-dot {
     width: 6px;
@@ -268,17 +322,28 @@ $font-main: 'Courier New', monospace;
   }
 }
 
+// Dark mode for typing indicator
+.dark-mode {
+  .pixel-typing-indicator {
+    background-color: $dark-secondary-bg;
+  }
+}
+
 // Input areas
 .pixel-name-container,
 .pixel-input-container {
   display: flex;
-  padding: 14px;
+  padding: 8px;
   background-color: color.adjust($light-bg, $lightness: -3%);
   border-top: 1px solid rgba($primary-color, 0.15);
-  
-  .dark-mode & {
-    background-color: #222;
-    border-top-color: #444;
+}
+
+// Dark mode for input containers
+.dark-mode {
+  .pixel-name-container,
+  .pixel-input-container {
+    background-color: color.adjust($dark-container-bg, $lightness: -5%);
+    border-top-color: $dark-border;
   }
 }
 
@@ -303,14 +368,22 @@ $font-main: 'Courier New', monospace;
   &::placeholder {
     color: rgba($light-text, 0.5);
   }
-  
-  .dark-mode & {
-    background-color: #222;
-    color: white;
-    border-color: #444;
+}
+
+// Dark mode for input
+.dark-mode {
+  .pixel-input {
+    background-color: $dark-input-bg;
+    color: $dark-text;
+    border-color: $dark-border;
     
     &:focus {
-      background-color: #2a2a2a;
+      background-color: color.adjust($dark-input-bg, $lightness: 10%);
+      @include dark-soft-shadow;
+    }
+    
+    &::placeholder {
+      color: rgba($dark-text, 0.5);
     }
   }
 }
@@ -347,11 +420,6 @@ $font-main: 'Courier New', monospace;
   background-color: color.adjust($light-bg, $lightness: -3%);
   border-top: 1px solid rgba($primary-color, 0.15);
   
-  .dark-mode & {
-    background-color: #222;
-    border-top-color: #444;
-  }
-  
   .pixel-quick-btn {
     padding: 10px;
     background-color: rgba($primary-color, 0.1);
@@ -372,27 +440,26 @@ $font-main: 'Courier New', monospace;
     &:active {
       transform: scale(0.97);
     }
-    
-    .dark-mode & {
-      background-color: #333;
-      border-color: #444;
-      color: white;
-      
-      &:hover {
-        background-color: rgba($accent-color, 0.25);
-        color: white;
-      }
-    }
   }
 }
 
-// Animation for cursor blinking
-@keyframes cursor-blink {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
+// Dark mode for quick questions
+.dark-mode {
+  .pixel-quick-questions {
+    background-color: color.adjust($dark-container-bg, $lightness: -5%);
+    border-top-color: $dark-border;
+    
+    .pixel-quick-btn {
+      background-color: $dark-input-bg;
+      border-color: $dark-border;
+      color: $dark-text;
+      
+      &:hover {
+        background-color: rgba($accent-color, 0.25);
+        border-color: $accent-color;
+        color: $dark-text;
+      }
+    }
   }
 }
 
@@ -445,12 +512,6 @@ $font-main: 'Courier New', monospace;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
 }
 
 // Mobile responsiveness
@@ -507,12 +568,18 @@ $font-main: 'Courier New', monospace;
 }
 
 @media (max-width: 480px) {
-  .chat-window,
-  .video-container {
-    width: 95vw;
+  .chat-window {
+    width: 90vw;
     height: 60vh;
     right: 2.5vw;
   }
+  
+  .video-container {
+    width: 85vw;
+    height: 60vh;
+    right: 2.5vw;
+  }
+  
   
   .chat-header {
     padding: 0.75rem;

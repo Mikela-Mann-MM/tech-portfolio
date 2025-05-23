@@ -30,7 +30,7 @@ document.querySelector('#app').innerHTML = `
         </div>
       </section>
       
-      <section class="about">
+      <section class="about" id="about">
         <h2 class="section-title">About Me</h2>
         <div class="about__content">
          <p># Professional Bio: Front-End Developer</p>
@@ -110,7 +110,7 @@ Creating experiences that are not just functional but memorable. Whether optimiz
       </section>
 
        <section class="showcase">
-        <h2 class="section-title">Featured Project</h2>
+        <h2 class="section-title">Avatar presentation</h2>
         <div id="video-section"></div>
       </section> 
       
