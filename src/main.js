@@ -1,7 +1,7 @@
 
 import './styles/main.scss'
 
-// Debug reload issue
+
 console.log('Page loaded at:', new Date().toISOString())
 import { renderHeader } from './components/Header'
 import { renderFooter } from './components/Footer'

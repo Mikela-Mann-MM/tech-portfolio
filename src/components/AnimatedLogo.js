@@ -1,20 +1,20 @@
 
 import { cleanupManager } from '../utils/cleanup'
 
-// Store animation frame ID globally to cancel it on page unload
+// Store animation frame ID globally
 let animationFrameId = null
 let isAnimating = false
 
 export function renderAnimatedLogo() {
     const logoContainer = document.getElementById('animated-logo')
     
-    // Cancel any existing animation
+    // Cancel animation
     if (animationFrameId) {
       cancelAnimationFrame(animationFrameId)
       animationFrameId = null
     }
     
-    // Stop any existing animation
+    // Stop animation
     isAnimating = false
     
     logoContainer.innerHTML = `
