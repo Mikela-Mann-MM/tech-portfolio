@@ -140,7 +140,7 @@ Creating experiences that are not just functional but memorable. Whether optimiz
           
           <div class="project-card">
             <h3>E-commerce Platform</h3>
-            <p>Simple online store with cart functionality</p>
+            <p>Simple online store with cart functionality. I’m currently working on this project – check back soon for updates and new features.</p>
             <div class="tech-tags">
               <span>Node.js</span>
               <span>Express</span>
