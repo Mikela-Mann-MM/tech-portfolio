@@ -4,7 +4,7 @@ export function initProjectCards() {
   const projectUrls = {
     'Portfolio Website': '#',
     'Movie Explorer': 'https://mymoviemm.netlify.app',
-    'E-commerce Platform': '#',
+    'Full Stack Application': 'https://birgers-bolcher.onrender.com/',
     'API Integration Service': '#'
   };
 
