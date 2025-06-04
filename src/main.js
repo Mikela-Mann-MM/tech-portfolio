@@ -145,6 +145,9 @@ Creating experiences that are not just functional but memorable. Whether optimiz
               <span>Node.js</span>
               <span>Express</span>
               <span>SQLite</span>
+              <span>Typescript</span>
+              <span>Tailwind</span>
+              <span>React</span>
             </div>
           </div>
           
